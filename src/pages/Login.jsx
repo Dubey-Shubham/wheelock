@@ -15,7 +15,7 @@ const Login = () => {
 
   return (
     <Box sx={{ backgroundColor: "rgb(52, 130, 238)", height: "100vh", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-      <Paper sx={{ width: '28%', overflow: 'hidden', justifyContent: "center", display: "flex", flexDirection: "column", padding: "20px", gap: "10px" }}>
+      <Paper sx={{'@media (max-width: 610px)': {width: '78%'},'@media (min-width: 610px) and  (max-width: 1100px)': {width: '48%'}, width: '28%', overflow: 'hidden', justifyContent: "center", display: "flex", flexDirection: "column", padding: "20px", gap: "10px" }}>
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: 'center', marginBottom:"25px", marginTop:"30px" }}>
           <img src={logo} alt="" style={{ height: "72px" }} />
           <Box sx={{ height: "52px", backgroundColor: "black", width: "3px", marginRight: "20px" }}></Box>
@@ -31,23 +31,23 @@ const Login = () => {
         <form onSubmit={handleSubmit}>
           <Box sx={{ justifyContent: "center", display: "flex", flexDirection: "row" }}>
             <Grid container spacing={3} sx={{ justifyContent: "center", display: "flex", flexDirection: "row", }}>
-              <Grid md={12} item sx={{marginLeft:"20px"}}>
+              <Grid xs={12} sm={12} md={12} item sx={{marginLeft:"20px"}}>
                 <Typography
                   component="div"
                   sx={{ padding: "2px", marginLeft: "0px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
                 >
                   Username
                 </Typography>
-                <TextField style={{ width: "24rem" }} name="firstName" placeholder="Enter Username" variant="outlined" required />
+                <TextField style={{ width: "100%" }} name="firstName" placeholder="Enter Username" variant="outlined" required />
               </Grid>
-              <Grid md={12} item sx={{marginLeft:"20px"}}>
+              <Grid xs={12} sm={12} md={12} item sx={{marginLeft:"20px"}}>
                 <Typography
                   component="div"
                   sx={{ padding: "2px", marginLeft: "0px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
                 >
                   Password
                 </Typography>
-                <TextField style={{ width: "24rem" }} name="firstName" placeholder="Password" variant="outlined" required />
+                <TextField style={{ width: "100%" }} name="firstName" placeholder="Password" variant="outlined" required />
               </Grid>
             </Grid>
           </Box>

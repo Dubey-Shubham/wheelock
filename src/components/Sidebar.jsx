@@ -26,6 +26,7 @@ import LightIcon from '@mui/icons-material/Light';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 
 const drawerWidth = 240;
+          
 
 const openedMixin = (theme) => ({
     width: drawerWidth,
@@ -59,9 +60,13 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
         width: drawerWidth,
+        display: "block" ,                     //initial display is block
         flexShrink: 0,
         whiteSpace: 'nowrap',
         boxSizing: 'border-box',
+        '@media (max-width: 1000px)': {                   // if display becomes less than 1000px then it will become none and sidebar will disappear
+            display: 'none',
+          },
         ...(open && {
             ...openedMixin(theme),
             '& .MuiDrawer-paper': openedMixin(theme),
@@ -73,7 +78,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-export default function Sidebar({isOpen}) {
+export default function Sidebar({ isOpen }) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(true);
 
@@ -96,7 +101,7 @@ export default function Sidebar({isOpen}) {
                     />
 
                 </Box>
-                <List  sx={{marginTop: isOpen ?'2px' : '20px'}}>
+                <List sx={{ marginTop: isOpen ? '2px' : '20px' }}>
                     <Link to="/" style={{ textDecoration: "none" }}>
                         <ListItem disablePadding>
                             <ListItemButton>
@@ -129,20 +134,22 @@ export default function Sidebar({isOpen}) {
                             </ListItemButton>
                         </ListItem>
                     </Link>
-                    <ListItem disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                <HandshakeOutlinedIcon sx={{ height: "20px" }} />
-                            </ListItemIcon>
-                            {/* <Typography sx={{ fontSize: "13px" }} >Manage Customer</Typography> */}
-                            <ListItemText
-                                primary={
-                                    <Typography sx={{ fontSize: "15px" }}>Manage Customer</Typography>
-                                }
-                                sx={{ opacity: open ? 1 : 0 }}
-                            />
-                        </ListItemButton>
-                    </ListItem>
+                    <Link to="/dazzle" style={{ textDecoration: "none" }}>
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <HandshakeOutlinedIcon sx={{ height: "20px" }} />
+                                </ListItemIcon>
+                                {/* <Typography sx={{ fontSize: "13px" }} >Manage Customer</Typography> */}
+                                <ListItemText
+                                    primary={
+                                        <Typography sx={{ fontSize: "15px", color: "black" }}>Dazzle Rostering</Typography>
+                                    }
+                                    sx={{ opacity: open ? 1 : 0 }}
+                                />
+                            </ListItemButton>
+                        </ListItem>
+                    </Link>
                     <ListItem disablePadding>
                         <ListItemButton>
                             <ListItemIcon>

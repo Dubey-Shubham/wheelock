@@ -1,0 +1,32 @@
+@media (min-width:900px){
+.paper2{
+    background-color: #f3f0f0; 
+    height: 3rem; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center
+}
+.formc{
+    width: 500px; 
+    position: absolute; 
+    left: 15px
+}
+}
+@media (min-width:640px) and (max-width:900px){
+.paper2{
+    background-color: #f3f0f0; 
+    height: 3rem; 
+    display: flex; 
+    align-items: center; 
+    margin-left:19px;
+}
+}
+@media (min-width:200px) and (max-width:640px){
+.paper2{
+    background-color: #f3f0f0; 
+    height: 3rem; 
+    display: flex; 
+    align-items: center; 
+    margin-left:19px;
+}
+}

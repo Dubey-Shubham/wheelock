@@ -1,13 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from "axios"
 import { Paper, Box, Typography, Card, Grid, Divider, Button, TextField } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { submitForm} from '../features/formSlice';      // reducer jo ki data ko redux ki centralized state me append karega
-import { useNavigate } from 'react-router-dom'
+import { submitForm, updateFormData } from '../features/formSlice';      // reducer jo ki data ko redux ki centralized state me append karega
+import { useNavigate, useLocation } from 'react-router-dom'
 
 const Input = () => {
-    const dispatch = useDispatch()
 
+    // fetching data from fake api and showing
+
+    // const getUserName = async () => {
+    //     const res = await axios.get("https://jsonplaceholder.typicode.com/users/")
+    //     const data = res.data
+    //     console.log(data)
+    // dispatch(submitData(data))
+    // }
+
+    // useEffect(() => {
+    //     getUserName();
+    //   }, []);
+
+
+    const dispatch = useDispatch()
     const navigate = useNavigate();
+
     // State to store form data
     const [formData, setFormData] = useState({
         firstName: '',
@@ -15,7 +31,22 @@ const Input = () => {
         email: '',
         contact: '',
         role: '',
+        status: ''
     });
+
+
+    // taking state for edit data from uselist
+    const { state } = useLocation();
+    const isEditing = state == null ? false : true
+    // console.log(state)
+    // console.log(value)
+
+    useEffect(() => {
+        if (isEditing) {
+            setFormData(state);          //agar state variable me data hai to form me daaldo
+        }
+    }, []);
+
 
     // Function to handle form field changes, so that people can type
     const handleInputChange = (event) => {
@@ -27,18 +58,32 @@ const Input = () => {
     };
 
     // Function to handle form submission
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        dispatch(submitForm(formData))
+        try {
+            if (isEditing) {                      // if state variable has data
+                // Dispatch an action to update the existing data
+                dispatch(updateFormData(formData));
+            } else {
+                const url = "https://jsonplaceholder.typicode.com/posts"
+                const rep = await axios.post(url, { formData })     // posted the payload the url
+                // console.log(rep.data)
+                dispatch(submitForm(rep.data.formData))
+                // dispatch(submitForm(formData))
+                // console.log(formData);
+            }
 
-        // console.log(formData);
+        } catch (error) {
+            console.log(error.response)
+        }
+
         setFormData({
             firstName: '',
             lastName: '',
             email: '',
             contact: '',
             role: '',
-            status:''
+            status: ''
         })
         navigate("/users")
     };
@@ -57,7 +102,7 @@ const Input = () => {
             </Box>
             <Divider />
 
-            <Card style={{ padding: "2px 5px", marginTop: "10px", height: "65vh" }}>
+            <Card style={{ padding: "2px 5px", marginTop: "10px" }}>
                 <Typography
                     component="div"
                     sx={{ padding: "2px", marginLeft: "29px", marginBottom: "0px", fontSize: "15px", fontWeight: "500" }}
@@ -68,44 +113,44 @@ const Input = () => {
                 <form onSubmit={handleSubmit} style={{ margin: "10px 1px 10px 28px" }}>
                     <Grid container spacing={3}>
 
-                        <Grid md={6} item>
+                        <Grid xs={12} sm={6} md={6} lg={6} item>
                             <Typography
                                 component="div"
-                                sx={{ padding: "2px", marginLeft: "0px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
+                                sx={{ padding: "2px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
                             >
                                 First Name
                             </Typography>
-                            <TextField style={{ width: "37.5rem" }} label="First Name" name="firstName" value={formData.firstName} onChange={handleInputChange} placeholder="Enter first name" variant="outlined" required />
+                            <TextField fullWidth label="First Name" name="firstName" value={formData.firstName} onChange={handleInputChange} placeholder="Enter first name" variant="outlined" required />
                         </Grid>
 
-                        <Grid md={6} item>
+                        <Grid xs={12} sm={6} md={6} lg={6} item>
                             <Typography
                                 component="div"
-                                sx={{ padding: "2px", marginLeft: "0px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
+                                sx={{ padding: "2px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
                             >
                                 Last Name
                             </Typography>
-                            <TextField style={{ width: "37.5rem" }} label="Last Name" name="lastName" value={formData.lastName} onChange={handleInputChange} placeholder="Enter Last name" variant="outlined" required />
+                            <TextField fullWidth label="Last Name" name="lastName" value={formData.lastName} onChange={handleInputChange} placeholder="Enter Last name" variant="outlined" required />
                         </Grid>
 
-                        <Grid xs={12} sm={6} item>
+                        <Grid xs={12} sm={6} md={6} lg={6} item>
                             <Typography
                                 component="div"
-                                sx={{ padding: "2px", marginLeft: "0px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
+                                sx={{ padding: "2px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
                             >
                                 E-mail Address
                             </Typography>
-                            <TextField style={{ width: "37.5rem" }} label="Email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Enter Email Address" variant="outlined" type="email" required />
+                            <TextField fullWidth label="Email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Enter Email Address" variant="outlined" type="email" required />
                         </Grid>
 
-                        <Grid xs={12} sm={6} item>
+                        <Grid xs={12} sm={6} md={6} lg={6} item>
                             <Typography
                                 component="div"
-                                sx={{ padding: "2px", marginLeft: "0px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
+                                sx={{ padding: "2px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
                             >
                                 Contact Number
                             </Typography>
-                            <TextField style={{ width: "37.5rem" }} label="Contact" name="contact" value={formData.contact} onChange={handleInputChange} placeholder="Enter Contact Number" variant="outlined" type="tel" required />
+                            <TextField fullWidth label="Contact" name="contact" value={formData.contact} onChange={handleInputChange} placeholder="Enter Contact Number" variant="outlined" type="tel" required />
                         </Grid>
 
                         <Typography
@@ -116,35 +161,35 @@ const Input = () => {
                         </Typography>
                         < Divider sx={{ width: "96%", marginLeft: "27px" }} />
 
-                        <Grid xs={12} sm={6} item>
+                        <Grid xs={12} sm={6} md={6} lg={6} item>
                             <Typography
                                 component="div"
-                                sx={{ padding: "2px", marginLeft: "0px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
+                                sx={{ padding: "2px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
                             >
                                 User Role
                             </Typography>
-                            <TextField style={{ width: "37.5rem" }} label="User Role" name="role" value={formData.role} onChange={handleInputChange} variant="outlined" required />
+                            <TextField fullWidth label="User Role" name="role" value={formData.role} onChange={handleInputChange} variant="outlined" required />
                         </Grid>
 
-                        <Grid xs={12} sm={6} item>
+                        <Grid xs={12} sm={6} md={6} lg={6} item>
                             <Typography
                                 component="div"
-                                sx={{ padding: "2px", marginLeft: "0px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
+                                sx={{ padding: "2px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
                             >
                                 Status
                             </Typography>
-                            <TextField style={{ width: "37.5rem" }} label="Status" name="status" value={formData.status} onChange={handleInputChange} variant="outlined" required />
+                            <TextField fullWidth label="Status" name="status" value={formData.status} onChange={handleInputChange} variant="outlined" required />
                         </Grid>
-                        
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                type="submit"
-                                sx={{ position: "absolute", right: "50px", bottom: "50px" }}
-                            >
-                                Submit
-                            </Button>
-                    
+
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            type="submit"
+                            sx={{ marginTop: '20px', display: 'block', marginBottom:"20px", marginLeft:"auto" }}
+                        >
+                            Submit
+                        </Button>
+
                     </Grid>
                 </form>
             </Card>

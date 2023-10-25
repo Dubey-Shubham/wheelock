@@ -7,7 +7,7 @@ const Users = () => {
 
   return (
     <>
-        <Box height={657} component="main" sx={{ flexGrow: 1, paddingTop: "6px", paddingRight: '15px', paddingLeft: '15px', backgroundColor: "rgb(223, 226, 234)" }}>
+        <Box height={657} width={1295} component="main" sx={{ flexGrow: 1, paddingTop: "6px", paddingRight: '15px', paddingLeft: '15px', backgroundColor: "rgb(223, 226, 234)", overflowX: 'auto' }}>
           <Topbar value="Users"/>
           <Userlist/>
         </Box>
