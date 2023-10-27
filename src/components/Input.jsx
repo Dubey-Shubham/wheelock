@@ -88,6 +88,7 @@ const Input = () => {
         navigate("/users")
     };
 
+
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -105,7 +106,7 @@ const Input = () => {
             <Card style={{ padding: "2px 5px", marginTop: "10px" }}>
                 <Typography
                     component="div"
-                    sx={{ padding: "2px", marginLeft: "29px", marginBottom: "0px", fontSize: "15px", fontWeight: "500" }}
+                    sx={T2}
                 >
                     Basic Details
                 </Typography>
@@ -116,7 +117,7 @@ const Input = () => {
                         <Grid xs={12} sm={6} md={6} lg={6} item>
                             <Typography
                                 component="div"
-                                sx={{ padding: "2px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
+                                sx={T1}
                             >
                                 First Name
                             </Typography>
@@ -126,7 +127,7 @@ const Input = () => {
                         <Grid xs={12} sm={6} md={6} lg={6} item>
                             <Typography
                                 component="div"
-                                sx={{ padding: "2px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
+                                sx={T1}
                             >
                                 Last Name
                             </Typography>
@@ -136,7 +137,7 @@ const Input = () => {
                         <Grid xs={12} sm={6} md={6} lg={6} item>
                             <Typography
                                 component="div"
-                                sx={{ padding: "2px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
+                                sx={T1}
                             >
                                 E-mail Address
                             </Typography>
@@ -146,7 +147,7 @@ const Input = () => {
                         <Grid xs={12} sm={6} md={6} lg={6} item>
                             <Typography
                                 component="div"
-                                sx={{ padding: "2px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
+                                sx={T1}
                             >
                                 Contact Number
                             </Typography>
@@ -155,7 +156,7 @@ const Input = () => {
 
                         <Typography
                             component="div"
-                            sx={{ padding: "2px", marginLeft: "24px", marginTop: "15px", fontSize: "15px", fontWeight: "500" }}
+                            sx={T3}
                         >
                             Assign Role
                         </Typography>
@@ -164,7 +165,7 @@ const Input = () => {
                         <Grid xs={12} sm={6} md={6} lg={6} item>
                             <Typography
                                 component="div"
-                                sx={{ padding: "2px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
+                                sx={T1}
                             >
                                 User Role
                             </Typography>
@@ -174,7 +175,7 @@ const Input = () => {
                         <Grid xs={12} sm={6} md={6} lg={6} item>
                             <Typography
                                 component="div"
-                                sx={{ padding: "2px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
+                                sx={T1}
                             >
                                 Status
                             </Typography>
@@ -196,5 +197,26 @@ const Input = () => {
         </Paper>
     )
 }
+const T1 = {
+      padding: "2px", 
+      marginBottom: "0px", 
+      fontSize: "15px", 
+      fontWeight: "400"
+}
+const T2 = {
+      padding: "2px", 
+      marginLeft: "29px", 
+      marginBottom: "0px", 
+      fontSize: "15px", 
+      fontWeight: "500"
+}
+const T3 = {
+      padding: "2px", 
+      marginLeft: "24px", 
+      marginTop: "15px", 
+      fontSize: "15px", 
+      fontWeight: "500"
+}
+
 
 export default Input

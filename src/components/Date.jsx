@@ -6,7 +6,7 @@ const Date = ({ data, mon }) => {
   // console.log(data)
 
   return (
-    <Box sx={{ height: "7rem", width: "5rem", border: "1px solid grey", display: "flex", flexDirection: "row" }}>
+    <Box sx={Box1}>
       <Typography sx={{
         writingMode: "vertical-rl", // Set text to display vertically from bottom to top
         transform: "rotate(180deg)", // Rotate text to correct orientation
@@ -19,12 +19,41 @@ const Date = ({ data, mon }) => {
       </Typography>
       <Box >
         <Link to="/client">
-        <Box sx={{ backgroundColor: "#84f3d1", height: "1.5rem", width: "2.5rem", border: "2px solid black", display: 'flex', flexDirection: "column", justifyContent: 'center', alignItems: "center", margin: "12px 0px 0px 0px" }}> <Typography sx={{ fontWeight: '600' }}>EA2</Typography></Box>
+        <Box sx={Box2}> <Typography sx={{ fontWeight: '600' }}>EA2</Typography></Box>
         </Link>
-        <Box sx={{ backgroundColor: "black", color: 'white', height: "1.5rem", width: "2.5rem", border: "2px solid black", display: 'flex', flexDirection: "column", justifyContent: 'center', alignItems: "center" }}><Typography sx={{ fontWeight: '600' }}>01</Typography></Box>
+        <Box sx={Box3}><Typography sx={{ fontWeight: '600' }}>01</Typography></Box>
       </Box>
     </Box>
   )
+}
+const Box1 = {
+  height: "7rem", 
+  width: "5rem", 
+  border: "1px solid grey", 
+  display: "flex", 
+  flexDirection: "row"
+}
+const Box2 = {
+  backgroundColor: "#84f3d1",
+  height: "1.5rem",
+  width: "2.5rem",
+  border: "2px solid black", 
+  display: 'flex', 
+  flexDirection: "column",
+  justifyContent: 'center', 
+  alignItems: "center", 
+  margin: "12px 0px 0px 0px"
+}
+const Box3 = {
+  backgroundColor: "black", 
+  color: 'white', 
+  height: "1.5rem", 
+  width: "2.5rem", 
+  border: "2px solid black", 
+  display: 'flex', 
+  flexDirection: "column", 
+  justifyContent: 'center', 
+  alignItems: "center"
 }
 
 export default Date

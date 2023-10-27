@@ -86,7 +86,20 @@ export default function Userlist() {
         navigate(`/forms`, { state: userData })   // navigating to forms after someone clicks edit and also sending state with it
     };
 
-
+    const B1 = {
+        '@media (max-width: 600px)':{width:"70px", fontSize:"8px",right: "130px"}, 
+        position: 'absolute', 
+        right: "180px"
+    }
+    const B2 = {
+        '@media (max-width: 600px)':{width:"100px", 
+        fontSize:"8px", 
+        right: "20px", 
+        top: "186px"}, 
+        position: 'absolute', 
+        right: "40px", 
+        top: "184px"
+    }
 
     return (
         // <Box sx={{overflowX: 'auto'}}>
@@ -100,11 +113,11 @@ export default function Userlist() {
                 >
                     List
                 </Typography>
-                <Button variant="contained" startIcon={<FilterListIcon />} onClick={toggleSearch} sx={{'@media (max-width: 600px)':{width:"70px", fontSize:"8px",right: "130px"}, position: 'absolute', right: "180px" }}>
+                <Button variant="contained" startIcon={<FilterListIcon />} onClick={toggleSearch} sx={B1}>
                     Filters
                 </Button>
                 <Link to="/forms" >
-                    <Button variant="contained" startIcon={<AddIcon />} sx={{'@media (max-width: 600px)':{width:"100px", fontSize:"8px", right: "20px", top: "186px"}, position: 'absolute', right: "40px", top: "184px" }}>
+                    <Button variant="contained" startIcon={<AddIcon />} sx={B2}>
                         Add User
                     </Button>
                 </Link>

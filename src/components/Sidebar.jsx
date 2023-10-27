@@ -111,7 +111,7 @@ export default function Sidebar({ isOpen }) {
                                 {/* <Typography sx={{ fontSize: "13px" }}>Configuration</Typography> */}
                                 <ListItemText
                                     primary={
-                                        <Typography sx={{ fontSize: "15px", color: "black" }}>Configuration</Typography>
+                                        <Typography sx={T1}>Configuration</Typography>
                                     }
                                     sx={{ opacity: open ? 1 : 0 }}
                                 />
@@ -127,7 +127,7 @@ export default function Sidebar({ isOpen }) {
                                 {/* <Typography sx={{ fontSize: "13px" }}>Users</Typography> */}
                                 <ListItemText
                                     primary={
-                                        <Typography sx={{ fontSize: "15px", color: "black" }}>Users</Typography>
+                                        <Typography sx={T1}>Users</Typography>
                                     }
                                     sx={{ opacity: open ? 1 : 0 }}
                                 />
@@ -143,7 +143,7 @@ export default function Sidebar({ isOpen }) {
                                 {/* <Typography sx={{ fontSize: "13px" }} >Manage Customer</Typography> */}
                                 <ListItemText
                                     primary={
-                                        <Typography sx={{ fontSize: "15px", color: "black" }}>Dazzle Rostering</Typography>
+                                        <Typography sx={T1}>Dazzle Rostering</Typography>
                                     }
                                     sx={{ opacity: open ? 1 : 0 }}
                                 />
@@ -254,4 +254,9 @@ export default function Sidebar({ isOpen }) {
 
         </Box>
     );
+}
+
+const T1 = {
+    fontSize: "15px", 
+    color: "black"
 }

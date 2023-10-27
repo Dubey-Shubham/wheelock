@@ -14,9 +14,9 @@ const Login = () => {
   }
 
   return (
-    <Box sx={{ backgroundColor: "rgb(52, 130, 238)", height: "100vh", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-      <Paper sx={{'@media (max-width: 610px)': {width: '78%'},'@media (min-width: 610px) and  (max-width: 1100px)': {width: '48%'}, width: '28%', overflow: 'hidden', justifyContent: "center", display: "flex", flexDirection: "column", padding: "20px", gap: "10px" }}>
-        <Box sx={{ display: "flex", alignItems: "center", justifyContent: 'center', marginBottom:"25px", marginTop:"30px" }}>
+    <Box sx={Box1}>
+      <Paper sx={Paper1}>
+        <Box sx={Box2}>
           <img src={logo} alt="" style={{ height: "72px" }} />
           <Box sx={{ height: "52px", backgroundColor: "black", width: "3px", marginRight: "20px" }}></Box>
           <Typography sx={{ lineHeight: "19px", marginRight: "50px", color: "black", fontSize: "19px", fontWeight: "700" }}>
@@ -34,7 +34,7 @@ const Login = () => {
               <Grid xs={12} sm={12} md={12} item sx={{marginLeft:"20px"}}>
                 <Typography
                   component="div"
-                  sx={{ padding: "2px", marginLeft: "0px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
+                  sx={Typo1}
                 >
                   Username
                 </Typography>
@@ -43,7 +43,7 @@ const Login = () => {
               <Grid xs={12} sm={12} md={12} item sx={{marginLeft:"20px"}}>
                 <Typography
                   component="div"
-                  sx={{ padding: "2px", marginLeft: "0px", marginBottom: "0px", fontSize: "15px", fontWeight: "400" }}
+                  sx={Typo1}
                 >
                   Password
                 </Typography>
@@ -51,7 +51,7 @@ const Login = () => {
               </Grid>
             </Grid>
           </Box>
-          <Box sx={{ alignItems: "center", display: "flex", flexDirection: "row", justifyContent: "space-between", margin:"25px 22px 25px 10px" }}>
+          <Box sx={Box3}>
             <Box sx={{ alignItems: "center", display: "flex", flexDirection: "row" }}>
               <Checkbox {...label} />
               <Typography>Keep me logged in</Typography>
@@ -63,6 +63,48 @@ const Login = () => {
       </Paper>
     </Box>
   )
+
+}
+
+const Box1 = {
+  backgroundColor: "rgb(52, 130, 238)", 
+  height: "100vh", 
+  display: "flex", 
+  flexDirection: "row", 
+  justifyContent: "center", 
+  alignItems: "center"
+}
+const Paper1 = {
+  '@media (max-width: 610px)': {width: '78%'},
+  '@media (min-width: 610px) and  (max-width: 1100px)': {width: '48%'}, 
+  width: '28%', 
+  overflow: 'hidden', 
+  justifyContent: "center", 
+  display: "flex", 
+  flexDirection: "column", 
+  padding: "20px", 
+  gap: "10px" 
+}
+const Box2 ={
+  display: "flex", 
+  alignItems: "center", 
+  justifyContent: 'center', 
+  marginBottom:"25px", 
+  marginTop:"30px"
+}
+const Typo1 = {
+  padding: "2px", 
+  marginLeft: "0px", 
+  marginBottom: "0px", 
+  fontSize: "15px", 
+  fontWeight: "400"
+}
+const Box3 = {
+  alignItems: "center", 
+  display: "flex", 
+  flexDirection: "row", 
+  justifyContent: "space-between", 
+  margin:"25px 22px 25px 10px"
 }
 
 export default Login
