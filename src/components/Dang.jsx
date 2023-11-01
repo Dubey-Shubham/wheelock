@@ -6,7 +6,7 @@ import { submitCheck, deleteCheck } from '../features/dazzleSlice';
 
 const Dang = ({ date }) => {
     const wm = date.day
-    // console.log(click)
+    console.log(wm)
 
     const dispatch = useDispatch()
     const [checked, setChecked] = React.useState(false);

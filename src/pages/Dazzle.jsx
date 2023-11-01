@@ -24,9 +24,11 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { dazSelector } from '../features/dazzleSlice';
+import { dangSelector } from '../features/dangSlice';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import './Dazzle.css'
 import Dang from '../components/Dang';
+import DangC from '../components/DangC';
 
 const Dazzle = () => {
 
@@ -35,10 +37,24 @@ const Dazzle = () => {
   const handleOpenModal3 = () => setOpenModal3(true);
   const handleCloseModal3 = () => setOpenModal3(false);
 
+  const [openModal4, setOpenModal4] = React.useState(false);
+  const handleOpenModal4 = () => setOpenModal4(true);
+  const handleCloseModal4 = () => setOpenModal4(false);
+
   const arr = useSelector(dazSelector)
+  const vrr = useSelector(dangSelector) 
   const val = openModal3 === false ? arr.slice().sort((a, b) => a - b) : [1]            //Array.sort sorts the array in-place, meaning it attempts to mutate the array that is why we also used slice which return a new array (nahi to error ayega)
+  // const wal = openModal3 === false ? vrr.slice().sort((a, b) => a - b) : [1]            //Array.sort sorts the array in-place, meaning it attempts to mutate the array that is why we also used slice which return a new array (nahi to error ayega)
   // array of date sabhi sort hoga jab openmodal3 ki value false hai matlab modal close hai
-  // console.log(val)
+  const wal = openModal4 === false
+  ? vrr.slice().sort((a, b) => {
+      const dateA = new Date(a.year, a.month, a.day);
+      const dateB = new Date(b.year, b.month, b.day);
+      return dateA - dateB;
+    })
+  : [1];      //otherwise return  1 
+
+  // console.log(wal)
 
   // this is to control selectbox in c3
   const [age, setAge] = React.useState('');
@@ -70,7 +86,8 @@ const Dazzle = () => {
   }
   // console.log(days)
 
-  // modal 3 logic
+
+  // modal 3 logic, checkbox and left/right shift 
   const [selectedMonth, setSelectedMonth] = useState(new Date());       // store current date
 
   const changeMonth = (delta) => {                   // this function will update the state above based on right/left shifts clicked
@@ -84,6 +101,8 @@ const Dazzle = () => {
     setSelectedMonth(newDate);
   };
   // console.log("hello" + tday)
+
+  // function to find days in a month
   function getDaysInMonthArray() {
     const today = selectedMonth // Get the current date
     const year = today.getFullYear(); // Get the current year
@@ -116,7 +135,81 @@ const Dazzle = () => {
   const moyr = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long' }).format(selectedMonth)
   // console.log(moyr)
 
-  //const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31] // Array to store checkbox values
+  // finding all the 35 days of calender
+  function getDaysInMonths() {
+    const today = selectedMonth // Useing the selected month
+    const year = today.getFullYear();
+    const month = today.getMonth();
+
+    // Create a new Date object for the first day of the current month
+    const firstDayOfMonth = new Date(year, month, 1);
+
+    // Create a new Date object for the last day of the current month
+    const lastDayOfMonth = new Date(year, month + 1, 0);
+
+    // Calculate the number of days in the current month
+    const daysInMonth = lastDayOfMonth.getDate();
+
+    // Calculate the day of the week for the first day of the month (0-6, where 0 is Sunday)
+    const theday = firstDayOfMonth.getDay();
+    // increasing the day by one (1-7)
+    const startDayOfWeek = theday === 0 ? 7 : theday
+
+    // Create an array to hold the days for the calendar
+    const calendarArray = [];
+    // array to hold days month year 
+    const calArray = [];
+
+    // Calculate the number of days to add from the previous month to make it 35 days
+    const daysFromPrevMonth = startDayOfWeek === 1 ? 0 : startDayOfWeek - 1;
+
+    const prevMonth = new Date(year, month, 0); // Last day of the previous month (complete date)
+    const daysInPrevMonth = prevMonth.getDate();    // extracting only date from entire dd/mm/yy
+    //console.log("prev month" + prevMonth)
+    //console.log("days in prev month" + daysInPrevMonth)
+
+    for (let i = daysInPrevMonth - daysFromPrevMonth + 1; i <= daysInPrevMonth; i++) {     // looping last days of previous month to fill intials of 35 days
+      calendarArray.push(i);
+      calArray.push({
+        index: i+month,
+        day: i,
+        month: month,
+        year: year,
+      });
+    }
+
+    // Add the days of the current month (all 31)
+    for (let i = 1; i <= daysInMonth; i++) {
+      calendarArray.push(i);
+      calArray.push({
+        index: i+month,
+        day: i,
+        month: month + 1,
+        year: year,
+      });
+    }
+
+    // Calculate the number of days to add from the next month to make it 35 days
+    const daysFromNextMonth = 35 - calendarArray.length;
+
+    for (let i = 1; i <= daysFromNextMonth; i++) {
+      calendarArray.push(i);
+      calArray.push({
+        index: i+month,
+        day: i,
+        month: month + 2,
+        year: year,
+      });
+    }
+
+    return calArray;
+  }
+  const bmss = getDaysInMonths()
+  // console.log(bmss)
+
+
+
+  // const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31] // Array to store checkbox values
 
   return (
     <Box sx={{ backgroundColor: "#f3f0f0" }}>
@@ -204,6 +297,7 @@ const Dazzle = () => {
 
       {/* c 5 */}
       <Paper elevation={1} sx={Paper2}>
+
         {/* box with icon and all the schedule cards */}
         <Box sx={B5}>
           <Box onClick={handleOpenModal2} sx={B6} >
@@ -316,6 +410,7 @@ const Dazzle = () => {
         </Box>
       </Paper>
 
+      {/* modal with tickbox */}
       <Paper elevation={1} sx={Paper3}>
         {/* box with icon and all the schedule cards */}
         <Box sx={B11}>
@@ -328,7 +423,7 @@ const Dazzle = () => {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
-            <Box sx={mod}>
+            <Box sx={zod}>
               <Typography id="modal-modal-title" sx={{ '@media(max-width: 513px)': { fontSize: "18px", marginBottom: "2px" }, fontSize: "30px", marginBottom: "10px" }}>
                 Assign Shift(s)
               </Typography>
@@ -362,6 +457,131 @@ const Dazzle = () => {
         <Box sx={{ display: "flex", overflowX: "auto", maxWidth: "100%" }}>
           {val.map((Bard) =>
             <CustomDate data={Bard} mon={moyr} />)}
+        </Box>
+      </Paper>
+
+      {/* modal with calender */}
+      <Paper elevation={1} sx={Paper3}>
+        {/* box with icon and all the schedule cards */}
+        <Box sx={B11}>
+          <Box onClick={handleOpenModal4} sx={B12} >
+            <CalendarMonthIcon />
+          </Box>
+          <Modal
+            open={openModal4}
+            onClose={handleCloseModal4}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={mod}>
+              <Typography id="modal-modal-title" sx={{ '@media(max-width: 513px)': { fontSize: "18px", marginBottom: "2px" }, fontSize: "30px", marginBottom: "10px" }}>
+                Assign Shift(s)
+              </Typography>
+              <Divider sx={{ border: "1px solid #a9a8a8" }} />
+              <Box sx={{ '@media(max-width: 513px)': { padding: "2px 10px" }, padding: "05px 10px", backgroundColor: "#d5d3d3", display: "flex", justifyContent: "center" }}>
+                <Button variant="contained" onClick={() => changeMonth(-1)} sx={{ '@media(max-width: 513px)': { height: "18px" }, height: "28px", width: "1px", color: 'black', backgroundColor: "#6dd0b2" }}>
+                  <KeyboardArrowLeftIcon />
+                </Button>
+                <Typography sx={{ '@media(max-width: 640px)': { fontSize: "12px" }, fontSize: "18px", fontWeight: "500" }}>
+                  {moyr}
+                </Typography>
+
+                <Button variant="contained" onClick={() => changeMonth(1)} sx={{ '@media(max-width: 513px)': { height: "18px" }, height: "28px", width: "1px", color: 'black', backgroundColor: "#6dd0b2" }}>
+                  <ChevronRightIcon />
+                </Button>
+              </Box>
+              <Typography sx={{ '@media(max-width: 513px)': { fontSize: "15px", padding: "0px 10px" }, padding: "2px 10px", fontSize: "20px", backgroundColor: "#d5d3d3" }}>
+                Days
+              </Typography>
+
+              <TableContainer component={Paper}>
+                <Table >
+                  <TableBody sx={{ display: "flex", flexDirection: "column" }}>
+
+                    <TableRow>
+
+                      <TableCell sx={tabl}>Monday</TableCell>
+                      <TableCell sx={tabl}>Tuesday</TableCell>
+                      <TableCell sx={tabl}>Wednesday</TableCell>
+                      <TableCell sx={tabl}>Thursday</TableCell>
+                      <TableCell sx={tabl}>Friday</TableCell>
+                      <TableCell sx={tabl}>Saturday</TableCell>
+                      <TableCell sx={taabbl}>Sunday</TableCell>
+                    </TableRow>
+
+                    <TableRow>
+                      <TableCell sx={tabl}> <DangC date={bmss[0]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[1]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[2]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[3]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[4]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[5]} /> </TableCell>
+                      <TableCell sx={taabbl}> <DangC date={bmss[6]} /> </TableCell>
+                    </TableRow>
+
+                    <TableRow>
+
+                      <TableCell sx={tabl}> <DangC date={bmss[7]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[8]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[9]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[10]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[11]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[12]} /> </TableCell>
+                      <TableCell sx={taabbl}> <DangC date={bmss[13]} /> </TableCell>
+
+                    </TableRow>
+                    <TableRow>
+
+                      <TableCell sx={tabl}> <DangC date={bmss[14]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[15]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[16]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[17]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[18]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[19]} /> </TableCell>
+                      <TableCell sx={taabbl}> <DangC date={bmss[20]} /> </TableCell>
+
+                    </TableRow>
+                    <TableRow>
+
+                      <TableCell sx={tabl}> <DangC date={bmss[21]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[22]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[23]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[24]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[25]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[26]} /> </TableCell>
+                      <TableCell sx={taabbl}> <DangC date={bmss[27]} /> </TableCell>
+
+                    </TableRow>
+                    <TableRow>
+
+                      <TableCell sx={tabl}> <DangC date={bmss[28]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[29]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[30]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[31]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[32]} /> </TableCell>
+                      <TableCell sx={tabl}> <DangC date={bmss[33]} /> </TableCell>
+                      <TableCell sx={taabbl}> <DangC date={bmss[34]} /> </TableCell>
+
+                    </TableRow>
+                    {bmss.length >= 36 && (
+                      <TableRow >
+                        <TableCell sx={tabl}> {bmss[35] !== undefined && ( <DangC date={bmss[35]}/> )} </TableCell>
+                        <TableCell sx={tabl}> {bmss[36] !== undefined && ( <DangC date={bmss[36]}/> )} </TableCell>
+                        <TableCell sx={tabl}> {bmss[37] !== undefined && ( <DangC date={bmss[37]}/> )} </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <Button onClick={handleCloseModal4} sx={{ width: "20px", marginTop: "5px", float: "right", backgroundColor: "#6dd0b2", color: "black" }}>Submit</Button>
+            </Box>
+          </Modal>
+        </Box>
+
+        {/* mapping compo in this cusdate */}
+        <Box sx={{ display: "flex", overflowX: "auto", maxWidth: "100%" }}>
+          {wal.map((Bard) =>
+            <CustomDate dat={Bard} />)}
         </Box>
       </Paper>
     </Box>
@@ -451,6 +671,44 @@ const mod = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
+  width: "65%",
+  height: "580px",
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 2,
+  borderRadius: "20px"
+};
+const zod = {
+  '@media(max-width: 1262px)': {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: "85%",
+    height: "575px",
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  },
+  '@media(max-width: 513px)': {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: "65%",
+    height: "510px",
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  },
+
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: "87%",
   height: "580px",
   bgcolor: 'background.paper',
@@ -469,41 +727,46 @@ const Paper1 = {
   margin: "1px 0px"
 }
 const Paper2 = {
-  border: "1px solid grey", 
-  backgroundColor: "#dfdada", 
-  height: "7rem", 
-  display: "flex", 
-  alignItems: "center", 
+  border: "1px solid grey",
+  backgroundColor: "#dfdada",
+  height: "7rem",
+  display: "flex",
+  alignItems: "center",
   margin: "10px"
 }
 const Paper3 = {
-  border: "1px solid grey", 
-  backgroundColor: "#dfdada", 
-  height: "7rem", 
-  display: "flex", 
-  alignItems: "center", 
+  border: "1px solid grey",
+  backgroundColor: "#dfdada",
+  height: "7rem",
+  display: "flex",
+  alignItems: "center",
   margin: "10px"
 }
 const P1 = {
-  backgroundColor: "white", 
-  height: "3.5rem", 
-  display: "flex", 
-  alignItems: "center", 
-  justifyContent: "center", 
+  backgroundColor: "white",
+  height: "3.5rem",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
   margin: "0px 7px"
 }
 const P2 = {
-  backgroundColor: "#f3f0f0", 
-  height: "3rem", 
-  display: "flex", 
-  alignItems: "center", 
-  justifyContent: "center", 
+  backgroundColor: "#f3f0f0",
+  height: "3rem",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
   gap: "4px"
 }
 const tabl = {
   borderLeft: "1px solid #969292",
   borderTop: "1px solid #969292",
-  width: "110px"
+  width: "110px",
+  '@media(max-width: 1115px)': {
+    borderLeft: "1px solid #969292",
+    borderTop: "1px solid #969292",
+    width: "110px",
+  },
 }
 const taabl = {
   borderLeft: "1px solid #969292",
@@ -522,102 +785,102 @@ const abl = {
   width: "110px"
 }
 const T1 = {
-  '@media(max-width: 640px)': { display: "none" }, 
-  fontSize: "18px", 
-  fontWeight: "500", 
+  '@media(max-width: 640px)': { display: "none" },
+  fontSize: "18px",
+  fontWeight: "500",
   marginTop: "25px"
 }
 
 const B1 = {
-  position: 'absolute', 
-  right: "110px", 
-  height: "33px", 
-  width: "180px", 
-  color: 'black', 
+  position: 'absolute',
+  right: "110px",
+  height: "33px",
+  width: "180px",
+  color: 'black',
   backgroundColor: "#6dd0b2"
 }
 const B2 = {
-  position: 'absolute', 
-  right: "10px", 
-  height: "33px", 
-  width: "80px", 
-  color: 'black', 
-  backgroundColor: "#6dd0b2", 
+  position: 'absolute',
+  right: "10px",
+  height: "33px",
+  width: "80px",
+  color: 'black',
+  backgroundColor: "#6dd0b2",
   top: "74px"
 }
 const B3 = {
-  position: 'absolute', 
-  right: "10px", 
-  height: "33px", 
-  width: "80px", 
-  color: 'black', 
+  position: 'absolute',
+  right: "10px",
+  height: "33px",
+  width: "80px",
+  color: 'black',
   backgroundColor: "#6dd0b2"
 }
 const B4 = {
-  height: "28px", 
-  width: "1px", 
-  color: 'black', 
+  height: "28px",
+  width: "1px",
+  color: 'black',
   backgroundColor: "#6dd0b2"
 }
 const B5 = {
-  border: "1px solid grey", 
-  width: "9rem", 
-  height: "7rem", 
-  display: "flex", 
-  alignItems: "center", 
+  border: "1px solid grey",
+  width: "9rem",
+  height: "7rem",
+  display: "flex",
+  alignItems: "center",
   justifyContent: "center"
 }
 const B6 = {
-  backgroundColor: "#6dd0b2", 
-  width: '2.5rem', 
-  height: "2.5rem", 
-  display: "flex", 
-  alignItems: "center", 
-  justifyContent: "center", 
-  borderRadius: "10px", 
+  backgroundColor: "#6dd0b2",
+  width: '2.5rem',
+  height: "2.5rem",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  borderRadius: "10px",
   margin: "2px 52px"
 }
 const B7 = {
-  height: "33px", 
-  width: "165px", 
-  color: 'black', 
-  backgroundColor: "#6dd0b2", 
+  height: "33px",
+  width: "165px",
+  color: 'black',
+  backgroundColor: "#6dd0b2",
   margin: "8px 0px"
 }
 const B8 = {
-  '@media(max-width: 1250px)': { fontSize: "10px", width: "85x" }, 
-  height: "33px", 
-  width: "94px", 
-  color: 'black', 
-  backgroundColor: "#6dd0b2", 
-  margin: "8px 2px", 
+  '@media(max-width: 1250px)': { fontSize: "10px", width: "85x" },
+  height: "33px",
+  width: "94px",
+  color: 'black',
+  backgroundColor: "#6dd0b2",
+  margin: "8px 2px",
   float: "right"
 }
 const B9 = {
-  '@media(max-width: 1250px)': { fontSize: "10px", width: "134px" }, 
-  height: "33px", 
-  width: "165px", 
-  color: 'black', 
-  backgroundColor: "#6dd0b2", 
-  margin: "8px 0px", 
+  '@media(max-width: 1250px)': { fontSize: "10px", width: "134px" },
+  height: "33px",
+  width: "165px",
+  color: 'black',
+  backgroundColor: "#6dd0b2",
+  margin: "8px 0px",
   float: "right"
 }
 const B11 = {
-  border: "1px solid grey", 
-  width: "9rem", 
-  height: "7rem", 
-  display: "flex", 
-  alignItems: "center", 
+  border: "1px solid grey",
+  width: "9rem",
+  height: "7rem",
+  display: "flex",
+  alignItems: "center",
   justifyContent: "center"
 }
 const B12 = {
-  backgroundColor: "#6dd0b2", 
-  width: '2.5rem', 
-  height: "2.5rem", 
-  display: "flex", 
-  alignItems: "center", 
-  justifyContent: "center", 
-  borderRadius: "10px", 
+  backgroundColor: "#6dd0b2",
+  width: '2.5rem',
+  height: "2.5rem",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  borderRadius: "10px",
   margin: "2px 52px"
 }
 

@@ -2,8 +2,10 @@ import { Box, Typography } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-const Date = ({ data, mon }) => {
-  // console.log(data)
+const Date = ({ data, mon, dat }) => {
+  // const ww = ` ${dat.day} / ${dat.month}/ ${dat.year}`
+  console.log("this is data"+data)
+  console.log("this is dat"+dat)
 
   return (
     <Box sx={Box1}>
@@ -11,11 +13,13 @@ const Date = ({ data, mon }) => {
         writingMode: "vertical-rl", // Set text to display vertically from bottom to top
         transform: "rotate(180deg)", // Rotate text to correct orientation
         marginLeft: "0px", // Adjust the margin to position the text
-        marginBottom: "1px",
+        marginBottom: "10px",
         fontSize: "12px",
         fontWeight: "bold"
       }}>
-        {data } {mon}
+        { data !== undefined ? data + mon : ` ${dat.day} / ${dat.month}/ ${dat.year}`}
+        {/* {data + mon}  */}
+        {/* {dat.day} / {dat.month} / {dat.year} */}
       </Typography>
       <Box >
         <Link to="/client">
